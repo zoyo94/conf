@@ -217,7 +217,7 @@ proxy-groups:
 - name: "🇯🇵日本"
   type: url-test
   use:
-  - auto
+  - sub
   url: https://www.gstatic.com/generate_204
   interval: '300'
   tolerance: '50'
@@ -225,7 +225,7 @@ proxy-groups:
 - name: "🇭🇰香港"
   type: url-test
   use:
-  - auto
+  - sub
   url: https://www.gstatic.com/generate_204
   interval: '300'
   tolerance: '50'
@@ -233,7 +233,7 @@ proxy-groups:
 - name: "🇺🇸美国"
   type: url-test
   use:
-  - auto
+  - sub
   url: https://www.gstatic.com/generate_204
   interval: '300'
   tolerance: '50'
@@ -241,7 +241,7 @@ proxy-groups:
 - name: "🇨🇳台湾"
   type: url-test
   use:
-  - auto
+  - sub
   url: https://www.gstatic.com/generate_204
   interval: '300'
   tolerance: '50'
@@ -249,7 +249,7 @@ proxy-groups:
 - name: "🇸🇬新加坡"
   type: url-test
   use:
-  - auto
+  - sub
   url: https://www.gstatic.com/generate_204
   interval: '300'
   tolerance: '50'
@@ -257,7 +257,7 @@ proxy-groups:
 - name: "🌍其他地区"
   type: url-test
   use:
-  - auto
+  - sub
   url: https://www.gstatic.com/generate_204
   interval: '300'
   tolerance: '50'
