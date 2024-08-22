@@ -61,12 +61,14 @@ rp: &rp
 # 延迟检测 URL
 p: &p 
   { type: http,
-    interval: 3600,
+    interval: 86400,
     health-check:
       {
         enable: true,
         url: http://www.apple.com/library/test/success.html,
-        interval: 300,
+        interval: 600,
+        lazy: true,
+        timeout: 2000,
       },
   }
 
@@ -96,14 +98,18 @@ proxy-groups:
       proxies:
         [🇭🇰 HK, 🇨🇳 TW, 🇸🇬 SG, 🇯🇵 JP, 🇺🇲 US, 🏴‍☠️ ETC],
       url: http://www.gstatic.com/generate_204,
-      interval: '300'
+      interval: '0',
+      lazy: true,
+      timeout: 2000
     }
   - { name: ♻️ 自动选择(排HK), 
       type: url-test,
       proxies:
         [🇨🇳 TW, 🇸🇬 SG, 🇯🇵 JP, 🇺🇲 US, 🏴‍☠️ ETC],
       url: http://www.gstatic.com/generate_204,
-      interval: '300'
+      interval: '0',
+      lazy: true,
+      timeout: 2000
     }
   - { name: ⛔️ 广告拦截, type: select, proxies: [DIRECT,REJECT] }
   - { name: "\U0001F6AB 运营劫持", type: select, proxies: [DIRECT,REJECT] }
