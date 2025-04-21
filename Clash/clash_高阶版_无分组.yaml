@@ -13,6 +13,12 @@ bind-address: "*"
 find-process-mode: strict
 unified-delay: true
 tcp-concurrent: true
+geodata-mode: true
+geo-auto-update: true
+geo-update-interval: 24
+geox-url:
+  geoip: "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
+  geosite: "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
 dns:
   enable: true
   ipv6: true
@@ -88,54 +94,65 @@ proxy-groups:
       interval: '300',
       <<: *use
     }
-  - { name: ⛔️ 广告拦截, type: select, proxies: [DIRECT,REJECT] }
-  - { name: "\U0001F6AB 运营劫持", type: select, proxies: [DIRECT,REJECT] }
-  - { name: 🤖 ChatGPT, <<: *pr }
-  - { name: 🤖 Claude, <<: *pr }
-  - { name: 🎵 TikTok, <<: *pr }
-  - { name: Discord, <<: *pr }  
-  - { name: 🍎 苹果服务, <<: *pr }
-  - { name: Ⓜ️ 微软服务, <<: *pr }
-  - { name: "\U0001F30D 国外媒体", <<: *pr }
-  - { name: "\U0001F30F 国内媒体", <<: *pr }
-  - { name: "\U0001F30D 国外服务", <<: *pr }
-  - { name: "\U0001F30F 国内服务", <<: *pr }
-  - { name: "\U0001F30F 国内IPS", <<: *pr }
-  - { name: "\U0001F41F 漏网之鱼", <<: *pr }
+  - { name: 广告拦截, type: select, proxies: [DIRECT,REJECT], icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Advertising.png"}
+  - { name: 运营劫持, type: select, proxies: [DIRECT,REJECT], icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Hijacking.png" }
+  - { name: ChatGPT, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Bot.png"}
+  - { name: Claude, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Bot.png"}
+  - { name: TikTok, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/TikTok.png"}
+  - { name: Discord, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Magic.png"}  
+  - { name: 苹果服务, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Apple.png"}
+  - { name: 微软服务, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Microsoft.png"}
+  - { name: 国外媒体, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/YouTube.png"}
+  - { name: 国内媒体, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/bilibili.png"}
+  - { name: 国外服务, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Google_Search.png"}
+  - { name: 国内服务, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/China_Map.png"}
+  - { name: 漏网之鱼, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Final.png"}
 
 rules:
   - DOMAIN-SUFFIX,holytechx.com,DIRECT
   - DOMAIN-SUFFIX,holytech.tech,DIRECT
   - DOMAIN-SUFFIX,engage.cloudflareclient.com,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,10.0.0.0/8,DIRECT
+  - IP-CIDR,172.16.0.0/12,DIRECT
+  - IP-CIDR,127.0.0.0/8,DIRECT
+  - IP-CIDR,100.64.0.0/10,DIRECT
+  - IP-CIDR,224.0.0.0/4,DIRECT
+  - IP-CIDR,fe80::/10,DIRECT
+  - IP-CIDR,119.28.28.28/32,DIRECT
+  - IP-CIDR,182.254.116.0/24,DIRECT
   - RULE-SET,Direct,DIRECT
-  - RULE-SET,Advertising,⛔️ 广告拦截
-  - "IP-CIDR,1.1.1.1/32,\U0001F30D 国外服务"
-  - "RULE-SET,运营商劫持,\U0001F6AB 运营劫持"
-  - RULE-SET,Claude,🤖 Claude
-  - RULE-SET,TikTok,🎵 TikTok
-  - RULE-SET,openai,🤖 ChatGPT
+  - RULE-SET,Advertising,广告拦截
+  - IP-CIDR,1.1.1.1/32,国外服务
+  - RULE-SET,运营商劫持,运营劫持
+  - RULE-SET,Claude,Claude
+  - RULE-SET,TikTok,TikTok
+  - RULE-SET,openai,ChatGPT
   - RULE-SET,Discord,Discord
-  - RULE-SET,微软,Ⓜ️ 微软服务
-  - RULE-SET,苹果服务,🍎 苹果服务
-  - "RULE-SET,国外媒体,\U0001F30D 国外媒体"
-  - "RULE-SET,国内媒体,\U0001F30F 国内媒体"
-  - "RULE-SET,国外服务,\U0001F30D 国外服务"
-  - "RULE-SET,国内服务,\U0001F30F 国内服务"
-  - "RULE-SET,国内IPS,\U0001F30F 国内IPS"
-  - "MATCH,\U0001F41F 漏网之鱼"
+  - RULE-SET,微软,微软服务
+  - RULE-SET,苹果服务,苹果服务
+  - RULE-SET,国外媒体,国外媒体
+  - RULE-SET,国内媒体,国内媒体
+  - RULE-SET,国外服务,国外服务
+  - RULE-SET,国内服务,国内服务
+  - GEOIP,twitter,国外媒体
+  - GEOSITE,twitter,国外媒体
+  - GEOIP,CN,DIRECT
+  - GEOSITE,CN,DIRECT
+  - IP-ASN,13335,DIRECT
+  - MATCH,漏网之鱼
 
 rule-providers:
   Direct: {<<: *rp, path: "./rule_provider/Direct.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Direct/Direct.yaml"}
   Advertising: {<<: *rp, path: "./rule_provider/Advertising.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Advertising/Advertising.yaml"}
-  运营商劫持: {<<: *rp, path: "./rule_provider/运营商劫持.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Hijacking/Hijacking.yaml"}
-  Claude: {<<: *rp, path: "./rule_provider/Claude.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Claude/Claude.yaml"}
-  TikTok: {<<: *rp, path: "./rule_provider/Tiktok.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TikTok/TikTok.yaml"}
-  openai: {<<: *rp, path: "./rule_provider/openai.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml"}
-  Discord: {<<: *rp, path: "./rule_provider/Discord.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Discord/Discord.yaml"}
-  微软: {<<: *rp, path: "./rule_provider/微软.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml"}
-  苹果服务: {<<: *rp, path: "./rule_provider/苹果服务.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Apple/Apple.yaml"}
-  国外媒体: {<<: *rp, path: "./rule_provider/国外媒体.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml"}
-  国内媒体: {<<: *rp, path: "./rule_provider/国内媒体.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ChinaMedia/ChinaMedia.yaml"}
-  国外服务: {<<: *rp, path: "./rule_provider/国外服务.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Proxy/Proxy_Classical.yaml"}
-  国内服务: {<<: *rp, path: "./rule_provider/国内服务.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/China/China_Classical.yaml"}
-  国内IPS: {<<: *rp, path: "./rule_provider/国内IPS.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ChinaIPs/ChinaIPs_Classical.yaml"}
+  运营商劫持: {<<: *rp, path: "./rule_provider/运营商劫持.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml"}
+  Claude: {<<: *rp, path: "./rule_provider/Claude.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.yaml"}
+  TikTok: {<<: *rp, path: "./rule_provider/Tiktok.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TikTok/TikTok.yaml"}
+  openai: {<<: *rp, path: "./rule_provider/openai.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml"}
+  Discord: {<<: *rp, path: "./rule_provider/Discord.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Discord/Discord.yaml"}
+  微软: {<<: *rp, path: "./rule_provider/微软.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml"}
+  苹果服务: {<<: *rp, path: "./rule_provider/苹果服务.yaml",url: "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/apple-cn.txt"}
+  国外媒体: {<<: *rp, path: "./rule_provider/国外媒体.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml"}
+  国内媒体: {<<: *rp, path: "./rule_provider/国内媒体.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMedia/ChinaMedia.yaml"}
+  国外服务: {<<: *rp, path: "./rule_provider/国外服务.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Proxy/Proxy_Classical.yaml"}
+  国内服务: {<<: *rp, path: "./rule_provider/国内服务.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China_Classical.yaml"}
