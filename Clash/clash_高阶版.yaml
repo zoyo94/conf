@@ -140,7 +140,7 @@ proxy-groups:
   - { name: JP, <<: *use, filter: "(?i)日|jp|japan",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/JP.png"}
   - { name: US, <<: *use, filter: "(?i)美|us|unitedstates|united states",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/US.png"}
   - { name: SG, <<: *use, filter: "(?i)(新|sg|singapore)",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/SG.png"}
-  - { name: ETC,<<: *use,filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|剩余|到期|港|hk|hongkong|台|tw|taiwan|taipei|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*",type: url-test url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Loop.png"}
+  - { name: ETC,<<: *use,filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|剩余|到期|港|hk|hongkong|台|tw|taiwan|taipei|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*",type: url-test,url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Loop.png"}
   #- { name: 全部节点, <<: *use }
 
 rules:
