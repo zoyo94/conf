@@ -1,0 +1,312 @@
+---
+port: 7890
+log-level: error
+socks-port: 7891
+redir-port: 7892
+tproxy-port: 7895
+mixed-port: 7893
+ipv6: true
+allow-lan: true
+mode: rule
+external-controller: 0.0.0.0:9090
+secret: 94ZOYO94
+bind-address: "*"
+find-process-mode: strict
+unified-delay: true
+tcp-concurrent: true
+geodata-mode: true
+geo-auto-update: true
+geo-update-interval: 24
+geox-url:
+  geoip: "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
+  geosite: "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
+dns:
+  enable: true
+  ipv6: true
+  respect-rules: false
+  listen: 0.0.0.0:7874
+  use-hosts: false
+  use-system-hosts: false
+  enhanced-mode: redir-host
+  fake-ip-range: 198.19.0.1/16
+  fake-ip-filter:
+    - '*'
+    - '+.lan'
+    - '+.local'
+  nameserver:
+  - quic://dns.alidns.com
+  - https://doh.pub/dns-query
+  fallback:
+  - 8.8.8.8
+  - 8.8.4.4
+  - tls://1.0.0.1:853
+  - tls://dns.google:853
+tun:
+  enable: true
+  stack: mixed
+  device: utun
+  auto-route: false
+  auto-detect-interface: false
+  dns-hijack:
+  - tcp://any:53
+profile:
+  store-selected: true
+authentication:
+
+proxy-providers:
+  sub:
+    type: http
+    path: "./proxy_provider/auto.yaml"
+    url: 订阅地址
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300  
+proxies:
+
+proxy-groups:
+- name: "🚀 节点选择"
+  type: select
+  proxies:
+  - "♻️ 自动选择"
+  - DIRECT
+  - "🇯🇵日本"
+  - "🇭🇰香港"
+  - "🇺🇸美国"
+  - "🇨🇳台湾"
+  - "🇸🇬新加坡"
+  - "🌍其他地区"
+- name: "♻️ 自动选择"
+  type: url-test
+  proxies:
+  - "🇯🇵日本"
+  - "🇭🇰香港"
+  - "🇺🇸美国"
+  - "🇨🇳台湾"
+  - "🇸🇬新加坡"
+  - "🌍其他地区"
+  url: http://www.gstatic.com/generate_204
+  interval: '300'
+- name: "⛔️ 广告拦截"
+  type: select
+  proxies:
+  - REJECT
+  - DIRECT
+- name: "🈲 运营劫持"
+  type: select
+  proxies:
+  - REJECT
+  - DIRECT
+- name: 🎵 TikTok
+  type: select
+  disable-udp: false
+  proxies:
+  - DIRECT
+  - "🚀 节点选择"
+  - "🇯🇵日本"
+  - "🇭🇰香港"
+  - "🇺🇸美国"
+  - "🇨🇳台湾"
+  - "🇸🇬新加坡"
+  - "🌍其他地区"
+- name: 🤖 OpenAI
+  type: select
+  disable-udp: false
+  proxies:
+  - DIRECT
+  - "🚀 节点选择"
+  - "🇯🇵日本"
+  - "🇭🇰香港"
+  - "🇺🇸美国"
+  - "🇨🇳台湾"
+  - "🇸🇬新加坡"
+  - "🌍其他地区"
+- name: 🤖 Claude
+  type: select
+  disable-udp: false
+  proxies:
+  - DIRECT
+  - "🚀 节点选择"
+  - "🇯🇵日本"
+  - "🇭🇰香港"
+  - "🇺🇸美国"
+  - "🇨🇳台湾"
+  - "🇸🇬新加坡"
+  - "🌍其他地区"
+- name: Discord
+  type: select
+  disable-udp: false
+  proxies:
+  - DIRECT
+  - "🚀 节点选择"
+  - "🇯🇵日本"
+  - "🇭🇰香港"
+  - "🇺🇸美国"
+  - "🇨🇳台湾"
+  - "🇸🇬新加坡"
+  - "🌍其他地区"
+- name: "🍎 苹果服务"
+  type: select
+  proxies:
+  - DIRECT
+  - "🚀 节点选择"
+  - "🇯🇵日本"
+  - "🇭🇰香港"
+  - "🇺🇸美国"
+  - "🇨🇳台湾"
+  - "🇸🇬新加坡"
+  - "🌍其他地区"
+- name: "🌎 国外服务"
+  type: select
+  disable-udp: false
+  proxies:
+  - DIRECT
+  - "🚀 节点选择"
+  - "🇯🇵日本"
+  - "🇭🇰香港"
+  - "🇺🇸美国"
+  - "🇨🇳台湾"
+  - "🇸🇬新加坡"
+  - "🌍其他地区"
+- name: "🌏 国内服务"
+  type: select
+  disable-udp: false
+  proxies:
+  - DIRECT
+  - "🚀 节点选择"
+- name: "🐟 漏网之鱼"
+  type: select
+  proxies:
+  - DIRECT
+  - "🚀 节点选择"
+  - "🇯🇵日本"
+  - "🇭🇰香港"
+  - "🇺🇸美国"
+  - "🇨🇳台湾"
+  - "🇸🇬新加坡"
+  - "🌍其他地区"
+- name: "🇯🇵日本"
+  type: url-test
+  use:
+  - sub
+  url: https://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+  filter: "(?i)日本|jp|japan"
+- name: "🇭🇰香港"
+  type: url-test
+  use:
+  - sub
+  url: https://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+  filter: "(?i)港|hk|hongkong|hong kong"
+- name: "🇺🇸美国"
+  type: url-test
+  use:
+  - sub
+  url: https://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+  filter: "(?i)美|us|unitedstates|united states"
+- name: "🇨🇳台湾"
+  type: url-test
+  use:
+  - sub
+  url: https://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+  filter: "(?i)台|tw|taiwan|taipei"
+- name: "🇸🇬新加坡"
+  type: url-test
+  use:
+  - sub
+  url: https://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+  filter: "(?i)(新|sg|singapore)"
+- name: "🌍其他地区"
+  type: url-test
+  use:
+  - sub
+  url: https://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+  filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|剩余|到期|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
+rules:
+  - "RULE-SET,Direct,🌏 国内服务"
+  - RULE-SET,Advertising,⛔️ 广告拦截
+  - "IP-CIDR,1.1.1.1/32,🌎 国外服务"
+  - "RULE-SET,运营商劫持,🈲 运营劫持"
+  - RULE-SET,Claude,🤖 Claude
+  - RULE-SET,TikTok,🎵 TikTok
+  - RULE-SET,openai,🤖 OpenAI
+  - RULE-SET,Discord,Discord
+
+  - "GEOSITE,github,🌎 国外服务"
+  - "GEOSITE,twitter,🌎 国外服务"
+  - "GEOSITE,youtube,🌎 国外服务"
+  - "GEOSITE,google,🌎 国外服务"
+  - "GEOSITE,telegram,🌎 国外服务"
+  - "GEOSITE,bilibili,🌏 国内服务"
+  - "GEOSITE,apple-cn,🍎 苹果服务"
+  - "GEOSITE,CN,🌏 国内服务"
+  - "GEOSITE,geolocation-!cn,🐟 漏网之鱼"
+
+  - "GEOIP,google,🌎 国外服务"
+  - "GEOIP,telegram,🌎 国外服务"
+  - "GEOIP,twitter,🌎 国外服务"
+  - "GEOIP,CN,🌏 国内服务"
+  - "MATCH,🐟 漏网之鱼"
+
+rule-providers:
+  Direct:
+    type: http
+    behavior: classical
+    path: "./rule_provider/Direct.yaml"
+    format: yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Direct/Direct.yaml
+    interval: 86400
+  Advertising:
+    type: http
+    behavior: classical
+    path: "./rule_provider/Advertising.yaml"
+    format: yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Advertising/Advertising.yaml
+    interval: 86400
+  运营商劫持:
+    type: http
+    behavior: classical
+    path: "./rule_provider/运营商劫持.yaml"
+    format: yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Hijacking/Hijacking.yaml
+    interval: 86400
+  Claude:
+    type: http
+    behavior: classical
+    path: "./rule_provider/Claude.yaml"
+    format: yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Claude/Claude.yaml
+    interval: 86400
+  TikTok:
+    type: http
+    behavior: classical
+    path: "./rule_provider/Tiktok.yaml"
+    format: yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TikTok/TikTok.yaml
+    interval: 86400
+  openai:
+    type: http
+    behavior: classical
+    path: "./rule_provider/openai.yaml"
+    format: yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml
+    interval: 86400
+  Discord:
+    type: http
+    behavior: classical
+    path: "./rule_provider/Discord.yaml"
+    format: yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Discord/Discord.yaml
+    interval: 86400

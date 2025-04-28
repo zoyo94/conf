@@ -1,0 +1,176 @@
+port: 7890
+log-level: error
+socks-port: 7891
+redir-port: 7892
+tproxy-port: 7895
+mixed-port: 7893
+ipv6: true
+allow-lan: true
+mode: rule
+external-controller: 0.0.0.0:9090
+secret: 94ZOYO94
+bind-address: "*"
+find-process-mode: strict
+unified-delay: true
+tcp-concurrent: true
+geodata-mode: true
+geo-auto-update: true
+geo-update-interval: 24
+geox-url:
+  geoip: "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
+  geosite: "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
+dns:
+  enable: true
+  ipv6: true
+  respect-rules: false
+  listen: 0.0.0.0:7874
+  use-hosts: false
+  use-system-hosts: false
+  enhanced-mode: redir-host
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - '*'
+    - '+.lan'
+    - '+.local'
+  nameserver:
+  - quic://dns.alidns.com
+  - https://doh.pub/dns-query
+  fallback:
+  - 8.8.8.8
+  - 8.8.4.4
+  - tls://1.0.0.1:853
+  - tls://dns.google:853
+tun:
+  enable: true
+  stack: mixed
+  device: utun
+  strict-route: true
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+  - tcp://any:53
+hosts:
+  #'engage.cloudflareclient.com': 192.168.0.1
+profile:
+  store-selected: true
+authentication:
+- ZOYO:L5TJbhcm
+# 分组
+pr: &pr 
+  { type: select,
+    proxies:
+      [DIRECT,🚀 节点选择一, 🚀 节点选择二（排HK）, HK, TW, SG, JP, US, ETC],
+  }
+#规则订阅
+rp: &rp 
+  { type: http, behavior: classical, interval: 86400}
+# 延迟检测 URL
+p: &p 
+  { type: http,
+    interval: 86400,
+    health-check:
+      {
+        enable: true,
+        url: http://www.apple.com/library/test/success.html,
+        interval: 600,
+        lazy: true,
+        timeout: 5000,
+        max-failed-times: 5
+      },
+  }
+
+use: &use
+  type: select
+  use:
+    - sub
+    
+proxies:
+
+proxy-providers:
+    sub: {<<: *p, url: "订阅地址", path: "./proxy_provider/auto.yaml"}
+
+proxy-groups:
+  - { name: 🚀 节点选择一,
+      type: select,
+      proxies:
+        [DIRECT, ♻️ 自动选择, HK, TW, SG, JP, US, ETC],
+    }
+  - { name: 🚀 节点选择二（排HK）,
+      type: select,
+      proxies:
+        [DIRECT, ♻️ 自动选择(排HK), 🚀 节点选择一, HK, TW, SG, JP, US, ETC],
+    }
+  - { name: ♻️ 自动选择, 
+      type: url-test,
+      proxies:
+        [HK, TW, SG, JP, US, ETC],
+      url: http://www.gstatic.com/generate_204,
+      interval: '0',
+      lazy: true,
+      timeout: 5000,
+      max-failed-times: 5
+    }
+  - { name: ♻️ 自动选择(排HK), 
+      type: url-test,
+      proxies:
+        [TW, SG, JP, US, ETC],
+      url: http://www.gstatic.com/generate_204,
+      interval: '0',
+      lazy: true,
+      timeout: 5000,
+      max-failed-times: 5
+    }
+  - { name: 广告拦截, type: select, proxies: [DIRECT,REJECT], icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Advertising.png"}
+  - { name: 运营劫持, type: select, proxies: [DIRECT,REJECT], icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Hijacking.png" }
+  - { name: ChatGPT, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Bot.png"}
+  - { name: Claude, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Bot.png"}
+  - { name: TikTok, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/TikTok.png"}
+  - { name: Discord, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Magic.png"}  
+  - { name: 苹果服务, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Apple.png"}
+  - { name: 国外服务, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Google_Search.png"}
+  - { name: 国内服务, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/China_Map.png"}
+  - { name: 漏网之鱼, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Final.png"}
+
+  # 分隔,下面是地区分组
+  - { name: HK, <<: *use, filter: "(?i)港|hk|hongkong|hong kong",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/HK.png"}
+  - { name: TW, <<: *use, filter: "(?i)台|tw|taiwan|taipei",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/TW.png"}
+  - { name: JP, <<: *use, filter: "(?i)日|jp|japan",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/JP.png"}
+  - { name: US, <<: *use, filter: "(?i)美|us|unitedstates|united states",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/US.png"}
+  - { name: SG, <<: *use, filter: "(?i)(新|sg|singapore)",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/SG.png"}
+  - { name: ETC,<<: *use,filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|剩余|到期|港|hk|hongkong|台|tw|taiwan|taipei|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*",type: url-test,url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Loop.png"}
+  #- { name: 全部节点, <<: *use }
+
+rules:
+  - RULE-SET,Direct,国内服务
+  - RULE-SET,Advertising,广告拦截
+  - IP-CIDR,1.1.1.1/32,国外服务
+  - RULE-SET,运营商劫持,运营劫持
+  - RULE-SET,Claude,Claude
+  - RULE-SET,TikTok,TikTok
+  - RULE-SET,openai,ChatGPT
+  - RULE-SET,Discord,Discord
+
+  - GEOSITE,github,国外服务
+  - GEOSITE,twitter,国外服务
+  - GEOSITE,youtube,国外服务
+  - GEOSITE,google,国外服务
+  - GEOSITE,telegram,国外服务
+  - GEOSITE,bilibili,国内服务
+  - GEOSITE,apple-cn,苹果服务
+  - GEOSITE,CN,国内服务
+  - GEOSITE,geolocation-!cn,漏网之鱼
+
+  - GEOIP,google,国外服务
+  - GEOIP,telegram,国外服务
+  - GEOIP,twitter,国外服务
+  - GEOIP,CN,国内服务
+  - MATCH,漏网之鱼
+
+rule-providers:
+  Direct: {<<: *rp, path: "./rule_provider/Direct.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Direct/Direct.yaml"}
+  Advertising: {<<: *rp, path: "./rule_provider/Advertising.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Advertising/Advertising.yaml"}
+  运营商劫持: {<<: *rp, path: "./rule_provider/运营商劫持.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml"}
+  Claude: {<<: *rp, path: "./rule_provider/Claude.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.yaml"}
+  TikTok: {<<: *rp, path: "./rule_provider/Tiktok.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TikTok/TikTok.yaml"}
+  openai: {<<: *rp, path: "./rule_provider/openai.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml"}
+  Discord: {<<: *rp, path: "./rule_provider/Discord.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Discord/Discord.yaml"}
