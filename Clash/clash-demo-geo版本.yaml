@@ -239,14 +239,16 @@ rules:
   - RULE-SET,Advertising,⛔️ 广告拦截
   - "IP-CIDR,1.1.1.1/32,🌎 国外服务"
   - "RULE-SET,运营商劫持,🈲 运营劫持"
-  - RULE-SET,Claude,🤖 Claude
-  - RULE-SET,TikTok,🎵 TikTok
-  - RULE-SET,openai,🤖 OpenAI
-  - RULE-SET,Discord,Discord
+
+  - GEOSITE,anthropic,🤖 Claude
+  - GEOSITE,tiktok,🎵 TikTok
+  - GEOSITE,openai,🤖 OpenAI
+  - GEOSITE,discord,Discord
 
   - "GEOSITE,github,🌎 国外服务"
   - "GEOSITE,twitter,🌎 国外服务"
   - "GEOSITE,youtube,🌎 国外服务"
+  - "GEOSITE,facebook,🌎 国外服务"
   - "GEOSITE,google,🌎 国外服务"
   - "GEOSITE,telegram,🌎 国外服务"
   - "GEOSITE,bilibili,🌏 国内服务"
@@ -281,32 +283,4 @@ rule-providers:
     path: "./rule_provider/运营商劫持.yaml"
     format: yaml
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Hijacking/Hijacking.yaml
-    interval: 86400
-  Claude:
-    type: http
-    behavior: classical
-    path: "./rule_provider/Claude.yaml"
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Claude/Claude.yaml
-    interval: 86400
-  TikTok:
-    type: http
-    behavior: classical
-    path: "./rule_provider/Tiktok.yaml"
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TikTok/TikTok.yaml
-    interval: 86400
-  openai:
-    type: http
-    behavior: classical
-    path: "./rule_provider/openai.yaml"
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml
-    interval: 86400
-  Discord:
-    type: http
-    behavior: classical
-    path: "./rule_provider/Discord.yaml"
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Discord/Discord.yaml
     interval: 86400

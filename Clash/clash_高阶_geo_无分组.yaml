@@ -110,14 +110,16 @@ rules:
   - RULE-SET,Advertising,广告拦截
   - IP-CIDR,1.1.1.1/32,国外服务
   - RULE-SET,运营商劫持,运营劫持
-  - RULE-SET,Claude,Claude
-  - RULE-SET,TikTok,TikTok
-  - RULE-SET,openai,ChatGPT
-  - RULE-SET,Discord,Discord
+
+  - GEOSITE,anthropic,Claude
+  - GEOSITE,tiktok,TikTok
+  - GEOSITE,openai,ChatGPT
+  - GEOSITE,discord,Discord
 
   - GEOSITE,github,国外服务
   - GEOSITE,twitter,国外服务
   - GEOSITE,youtube,国外服务
+  - GEOSITE,facebook,国外服务
   - GEOSITE,google,国外服务
   - GEOSITE,telegram,国外服务
   - GEOSITE,bilibili,国内服务
@@ -135,7 +137,3 @@ rule-providers:
   Direct: {<<: *rp, path: "./rule_provider/Direct.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Direct/Direct.yaml"}
   Advertising: {<<: *rp, path: "./rule_provider/Advertising.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Advertising/Advertising.yaml"}
   运营商劫持: {<<: *rp, path: "./rule_provider/运营商劫持.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml"}
-  Claude: {<<: *rp, path: "./rule_provider/Claude.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.yaml"}
-  TikTok: {<<: *rp, path: "./rule_provider/Tiktok.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TikTok/TikTok.yaml"}
-  openai: {<<: *rp, path: "./rule_provider/openai.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml"}
-  Discord: {<<: *rp, path: "./rule_provider/Discord.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Discord/Discord.yaml"}
