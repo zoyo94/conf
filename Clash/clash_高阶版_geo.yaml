@@ -8,7 +8,7 @@ ipv6: true
 allow-lan: true
 mode: rule
 external-controller: 0.0.0.0:9090
-secret: 94ZOYO94
+secret: nxODt5by
 bind-address: "*"
 find-process-mode: strict
 unified-delay: true
@@ -64,15 +64,18 @@ profile:
   
 authentication:
 - ZOYO:L5TJbhcm
+
 # 分组
 pr: &pr 
   { type: select,
     proxies:
-      [DIRECT,🚀 节点选择一, 🚀 节点选择二（排HK）, HK, TW, SG, JP, US, ETC],
+      [DIRECT, REJECT, 🚀 节点选择一, 🚀 节点选择二（排HK）, HK, TW, SG, JP, US, ETC],
   }
+
 #规则订阅
 rp: &rp 
   { type: http, behavior: classical, interval: 86400}
+
 # 延迟检测 URL
 p: &p 
   { type: http,
@@ -88,8 +91,18 @@ p: &p
       },
   }
 
+# 节点检测
+url-test: &url-test
+  type: url-test
+  url: http://cp.cloudflare.com/generate_204
+  interval: 900
+  lazy: true
+  timeout: 3000
+  max-failed-times: 3
+  icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Want_Want.png
+
 use: &use
-  type: select
+  <<: *url-test
   use:
     - sub
     
@@ -102,32 +115,22 @@ proxy-groups:
   - { name: 🚀 节点选择一,
       type: select,
       proxies:
-        [DIRECT, ♻️ 自动选择, HK, TW, SG, JP, US, ETC],
+        [DIRECT, ♻️ 自动选择, HK, TW, SG, JP, US, ETC]
     }
   - { name: 🚀 节点选择二（排HK）,
       type: select,
       proxies:
-        [DIRECT, ♻️ 自动选择(排HK), 🚀 节点选择一, HK, TW, SG, JP, US, ETC],
+        [DIRECT, ♻️ 自动选择(排HK), 🚀 节点选择一, HK, TW, SG, JP, US, ETC]
     }
   - { name: ♻️ 自动选择, 
-      type: url-test,
+      <<: *url-test,
       proxies:
-        [HK, TW, SG, JP, US, ETC],
-      url: http://www.gstatic.com/generate_204,
-      interval: '0',
-      lazy: true,
-      timeout: 5000,
-      max-failed-times: 5
+        [HK, TW, SG, JP, US, ETC]
     }
   - { name: ♻️ 自动选择(排HK), 
-      type: url-test,
+      <<: *url-test,
       proxies:
-        [TW, SG, JP, US, ETC],
-      url: http://www.gstatic.com/generate_204,
-      interval: '0',
-      lazy: true,
-      timeout: 5000,
-      max-failed-times: 5
+        [TW, SG, JP, US, ETC]
     }
   - { name: 广告拦截, type: select, proxies: [DIRECT,REJECT], icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Advertising.png"}
   - { name: 运营劫持, type: select, proxies: [DIRECT,REJECT], icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Hijacking.png" }
@@ -140,12 +143,13 @@ proxy-groups:
   - { name: 漏网之鱼, <<: *pr, icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Final.png"}
 
   # 分隔,下面是地区分组
-  - { name: HK, <<: *use, filter: "(?i)港|hk|hongkong|hong kong",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/HK.png"}
-  - { name: TW, <<: *use, filter: "(?i)台|tw|taiwan|taipei",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/TW.png"}
-  - { name: JP, <<: *use, filter: "(?i)日|jp|japan",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/JP.png"}
-  - { name: US, <<: *use, filter: "(?i)美|us|unitedstates|united states",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/US.png"}
-  - { name: SG, <<: *use, filter: "(?i)(新|sg|singapore)",type: url-test, url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/SG.png"}
+  - { name: HK, <<: *use, filter: "(?i)港|hk|hongkong|hong kong", icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/HK.png"}
+  - { name: TW, <<: *use, filter: "(?i)台|tw|taiwan|taipei", icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/TW.png"}
+  - { name: JP, <<: *use, filter: "(?i)日|jp|japan", icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/JP.png"}
+  - { name: US, <<: *use, filter: "(?i)美|us|unitedstates|united states", icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/US.png"}
+  - { name: SG, <<: *use, filter: "(?i)(新|sg|singapore)", icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/SG.png"}
   - { name: ETC,<<: *use,filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|剩余|到期|港|hk|hongkong|台|tw|taiwan|taipei|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*",type: url-test,url: http://www.gstatic.com/generate_204,interval: '300',lazy: true,timeout: 5000,max-failed-times: 5,icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Loop.png"}
+
   #- { name: 全部节点, <<: *use }
 
 rules:
@@ -183,10 +187,4 @@ rule-providers:
   Direct: {<<: *rp, path: "./rule_provider/Direct.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Direct/Direct.yaml"}
   Advertising: {<<: *rp, path: "./rule_provider/Advertising.yaml",url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Advertising/Advertising.yaml"}
   运营商劫持: {<<: *rp, path: "./rule_provider/运营商劫持.yaml",url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml"}
-  AI:
-    type: http
-    behavior: classical
-    interval: 86400
-    path: "./rule_provider/AI.txt"
-    format: text
-    url: https://ruleset.skk.moe/Clash/non_ip/ai.txt
+  AI: {<<: *rp, path: "./rule_provider/AI.txt", format: text, url: https://ruleset.skk.moe/Clash/non_ip/ai.txt}
