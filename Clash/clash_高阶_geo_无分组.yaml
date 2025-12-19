@@ -170,6 +170,8 @@ proxy-groups:
   # 手动选择：合并 &Local 锚点（use: [Local] + type: select）
   - name: ✋🏻 手动选择
     <<: *Local  # 合并 Local 锚点的 use/type
+    proxies:
+      - ♻️ 自动选择
 
   # 自动选择：合并 &CF 锚点 + 补充 url-test 专属字段 + 修正 interval 类型
   - name: ♻️ 自动选择
